@@ -2,9 +2,11 @@ console.log('script sourced.');
 
 function getQuotes() {
     // Axios GET request (http request for information from the server)
+    // GET http://localhost:5007/quotes%7D 404 (Not Found)
+    // changed '/quotes}' to '/quotes'
     axios({
         method: 'GET',
-        url: '/quotes}'
+        url: '/quotes'
     }).then((response) => {
         // Code that will run on successful response
         // from the server.
@@ -13,7 +15,7 @@ function getQuotes() {
         let quotesFromServer = response.data;
         let contentDiv = document.querySelector('#content');
         contentDiv.innerHTML = '';
-        let i = 0;
+        // let i = 0;
         // ??? Loop over array of quotes and append to the content div
         for(let quote of quotesFromServer) {
             contentDiv.innerHTML += `
@@ -21,7 +23,7 @@ function getQuotes() {
                     "${quote.text}" -${quote.author}
                 </p>
             `;
-            i += 1;
+            // i += 1;
         }
     }).catch((error) => {
         console.log(error);
@@ -42,6 +44,7 @@ function submitForm(event) {
         text: quote,
         author: author,
     };
+    // console.log('quoteForServer',quoteForServer)
     // ???
     axios({
         method: 'POST',
@@ -49,7 +52,9 @@ function submitForm(event) {
         data: quoteForServer
     }).then((response) => {
         console.log(response);
-        getQuote();
+        // ReferenceError: getQuote is not defined at client.js:55:9
+        // chaged getQuote() to getQuotes()
+        getQuotes();
     }).catch((error) => {
         console.log(error);
         alert('Something went wrong.');
